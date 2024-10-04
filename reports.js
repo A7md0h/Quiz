@@ -1,3 +1,6 @@
+// تأكيد تحميل الملف
+console.log("تم تحميل reports.js بنجاح");
+
 // إعداد Firestore
 const db = firebase.firestore();
 
