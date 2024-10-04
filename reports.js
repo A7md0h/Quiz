@@ -1,10 +1,9 @@
+// إعداد Firestore
 import { getFirestore, collection, getDocs } from "https://www.gstatic.com/firebasejs/10.14.0/firebase-firestore.js";
 
-// إعداد Firestore
 const db = getFirestore();
 
-// Export functions to make them accessible in reports.html
-export function showTotalReport() {
+function showTotalReport() {
     getDocs(collection(db, "studentReports")).then((querySnapshot) => {
         const totalStudents = querySnapshot.size;
         let passedStudents = 0;
@@ -29,7 +28,7 @@ export function showTotalReport() {
     });
 }
 
-export function showGradeReport() {
+function showGradeReport() {
     getDocs(collection(db, "studentReports")).then((querySnapshot) => {
         let gradeReports = {};
 
@@ -60,7 +59,7 @@ export function showGradeReport() {
     });
 }
 
-export function showDetailedReport() {
+function showDetailedReport() {
     getDocs(collection(db, "studentReports")).then((querySnapshot) => {
         let detailedReportHTML = `<h2>تقارير مفصلة</h2>`;
         querySnapshot.forEach((doc) => {
