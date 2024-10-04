@@ -1,24 +1,31 @@
-import { getAuth, signInWithEmailAndPassword } from "https://www.gstatic.com/firebasejs/9.6.1/firebase-auth.js"; // استيراد Authentication
+// Firebase configuration
+const firebaseConfig = {
+  apiKey: "AIzaSyD8PsmPIKDIra4JyujpMtUxmjKIq5HTjwc",
+  authDomain: "quiz-75392.firebaseapp.com",
+  projectId: "quiz-75392",
+  storageBucket: "quiz-75392.appspot.com",
+  messagingSenderId: "936722185875",
+  appId: "1:936722185875:web:ba0cad58fe4efab399d766"
+};
 
-// Initialize Firebase Authentication
-const auth = getAuth();
+// Initialize Firebase
+firebase.initializeApp(firebaseConfig);
 
+// تسجيل الدخول
 function checkLogin() {
-    const email = document.getElementById("username").value; // استخدام البريد الإلكتروني كاسم المستخدم
+    const email = document.getElementById("username").value;
     const password = document.getElementById("password").value;
 
-    signInWithEmailAndPassword(auth, email, password)
+    const auth = firebase.auth();
+
+    auth.signInWithEmailAndPassword(email, password)
         .then((userCredential) => {
-            // تسجيل الدخول بنجاح
             const user = userCredential.user;
             console.log("تم تسجيل الدخول:", user.email);
-            // هنا يمكنك إعادة توجيه المستخدم إلى صفحة التقارير
-            window.location.href = "reports.html"; // توجيه المعلم إلى صفحة التقارير
+            window.location.href = "reports.html"; // توجيه المعلم لصفحة التقارير
         })
         .catch((error) => {
-            const errorCode = error.code;
-            const errorMessage = error.message;
-            console.error("خطأ في تسجيل الدخول:", errorMessage);
-            alert("خطأ في اسم المستخدم أو كلمة المرور."); // رسالة خطأ
+            document.getElementById("error-message").style.display = "block"; // عرض رسالة الخطأ
+            console.error("خطأ في تسجيل الدخول:", error.message);
         });
 }
