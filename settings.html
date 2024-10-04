@@ -3,41 +3,96 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>لعبة الأسئلة التفاعلية</title>
-    <link href="https://fonts.googleapis.com/css2?family=Cairo:wght@400;700&display=swap" rel="stylesheet">
-    <link rel="stylesheet" href="style.css">
-    
-    <!-- استيراد Firebase SDK -->
+    <title>إعدادات المعلم</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            text-align: center;
+            background-color: #f4f4f4;
+        }
+        .login-container {
+            margin-top: 100px;
+            padding: 20px;
+            background-color: #fff;
+            border-radius: 8px;
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+            width: 300px;
+            margin: 0 auto;
+        }
+        .login-container input {
+            width: 100%;
+            padding: 10px;
+            margin: 10px 0;
+            border: 1px solid #ccc;
+            border-radius: 4px;
+        }
+        .login-container button {
+            width: 100%;
+            padding: 10px;
+            background-color: #4CAF50;
+            color: white;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+        }
+        .login-container button:hover {
+            background-color: #45a049;
+        }
+        #error-message {
+            color: red;
+            display: none;
+        }
+    </style>
+</head>
+<body>
+
+    <div class="login-container">
+        <h2>تسجيل الدخول للمعلم</h2>
+        <input type="text" id="username" placeholder="اسم المستخدم">
+        <input type="password" id="password" placeholder="كلمة المرور">
+        <button onclick="checkLogin()">تسجيل الدخول</button>
+        <p id="error-message">خطأ في اسم المستخدم أو كلمة المرور.</p>
+    </div>
+
+    <!-- Firebase JS SDK (مطلوب لتحميل Firebase) -->
     <script src="https://www.gstatic.com/firebasejs/9.6.1/firebase-app.js"></script>
-    <script src="https://www.gstatic.com/firebasejs/9.6.1/firebase-firestore.js"></script>
     <script src="https://www.gstatic.com/firebasejs/9.6.1/firebase-auth.js"></script>
-    
+
+    <!-- تكوين Firebase -->
     <script>
-        // إعداد Firebase
         const firebaseConfig = {
-            apiKey: "AIzaSyD8PsmPIKDIra4JyujpMtUxmjKIq5HTjwc",
-            authDomain: "quiz-75392.firebaseapp.com",
-            projectId: "quiz-75392",
-            storageBucket: "quiz-75392.appspot.com",
-            messagingSenderId: "936722185875",
-            appId: "1:936722185875:web:ba0cad58fe4efab399d766"
+            apiKey: "YOUR_API_KEY",
+            authDomain: "YOUR_PROJECT_ID.firebaseapp.com",
+            projectId: "YOUR_PROJECT_ID",
+            storageBucket: "YOUR_PROJECT_ID.appspot.com",
+            messagingSenderId: "YOUR_MESSAGING_SENDER_ID",
+            appId: "YOUR_APP_ID"
         };
 
         // Initialize Firebase
         const app = firebase.initializeApp(firebaseConfig);
-        const db = firebase.firestore();
-        const auth = firebase.auth(); // إعداد Firebase Authentication
     </script>
-</head>
-<body>
-    <div id="settings-screen" class="settings-screen">
-        <h2>هذه الأيقونة للمعلم فقط</h2>
-        <p>الرجاء إدخال اسم المستخدم وكلمة المرور:</p>
-        <input type="text" id="username" placeholder="اسم المستخدم" required>
-        <input type="password" id="password" placeholder="كلمة المرور" required>
-        <button onclick="checkLogin()">تسجيل الدخول</button>
-    </div>
 
-    <script src="settings.js"></script>
+    <!-- سكربت تسجيل الدخول -->
+    <script>
+        import { getAuth, signInWithEmailAndPassword } from "https://www.gstatic.com/firebasejs/9.6.1/firebase-auth.js";
+
+        const auth = getAuth();
+
+        function checkLogin() {
+            const email = document.getElementById("username").value;
+            const password = document.getElementById("password").value;
+
+            signInWithEmailAndPassword(auth, email, password)
+                .then((userCredential) => {
+                    const user = userCredential.user;
+                    console.log("تم تسجيل الدخول:", user.email);
+                    window.location.href = "reports.html";
+                })
+                .catch((error) => {
+                    document.getElementById("error-message").style.display = "block";
+                });
+        }
+    </script>
 </body>
 </html>
