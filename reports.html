@@ -6,24 +6,6 @@
     <title>تقارير أداء الطلاب</title>
     <link href="https://fonts.googleapis.com/css2?family=Cairo:wght@400;700&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="reports.css">
-    
-    <!-- Firebase SDK -->
-    <script src="https://www.gstatic.com/firebasejs/9.6.1/firebase-app.js"></script>
-    <script src="https://www.gstatic.com/firebasejs/9.6.1/firebase-firestore.js"></script>
-
-    <script>
-        // Firebase configuration
-        const firebaseConfig = {
-            apiKey: "YOUR_API_KEY",
-            authDomain: "YOUR_PROJECT_ID.firebaseapp.com",
-            projectId: "YOUR_PROJECT_ID",
-            storageBucket: "YOUR_PROJECT_ID.appspot.com",
-            messagingSenderId: "YOUR_SENDER_ID",
-            appId: "YOUR_APP_ID"
-        };
-        // Initialize Firebase
-        firebase.initializeApp(firebaseConfig);
-    </script>
 </head>
 <body>
     <div class="report-container">
@@ -35,11 +17,12 @@
         </div>
 
         <div id="report-display" class="report-display">
-            <!-- التقارير ستظهر هنا -->
+            <!-- ستظهر التقارير هنا -->
             <p>اختر نوع التقرير من الأزرار أعلاه.</p>
         </div>
     </div>
 
-    <script src="reports.js"></script>
+    <!-- ربط ملف JavaScript -->
+    <script type="module" src="reports.js"></script>
 </body>
 </html>
