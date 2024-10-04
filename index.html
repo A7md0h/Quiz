@@ -29,18 +29,24 @@
         let studentGrade = '';
 
         // بدء الاختبار
-        function startQuiz() {
-            studentName = document.getElementById("student-name").value;
-            studentGrade = document.getElementById("student-grade").value;
+    function startQuiz() {
+    // تعريف المتغيرات داخل الدالة بدلاً من المستوى العالمي
+    const studentName = document.getElementById("student-name").value;
+    const studentGrade = document.getElementById("student-grade").value;
 
-            if (studentName && studentGrade) {
-                document.getElementById("start-screen").classList.add("hidden");
-                document.getElementById("quiz-container").classList.remove("hidden");
-                startTimer(); // يمكنك إضافة أي دالة لبدء المؤقت أو الاختبار
-            } else {
-                alert("يرجى إدخال الاسم والصف قبل البدء.");
-            }
-        }
+    console.log("Student Name:", studentName);
+    console.log("Student Grade:", studentGrade);
+
+    if (studentName && studentGrade) {
+        console.log("Starting quiz...");
+        document.getElementById("start-screen").classList.add("hidden");
+        document.getElementById("quiz-container").classList.remove("hidden");
+        startTimer(); // يمكنك إضافة أي دالة لبدء المؤقت أو الاختبار
+    } else {
+        alert("يرجى إدخال الاسم والصف قبل البدء.");
+    }
+}
+
 
         // حفظ تقرير الطالب في Firestore
         function saveStudentReport(score, correctAnswers, wrongAnswers, timeSpent) {
