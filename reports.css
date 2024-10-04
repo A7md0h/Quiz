@@ -15,11 +15,12 @@ body {
     box-shadow: 0 0 25px rgba(0, 0, 0, 0.1);
     text-align: center;
     width: 80%;
-    max-width: 600px;
+    max-width: 800px;
 }
 
 .report-container h1 {
     margin-bottom: 20px;
+    color: #333;
 }
 
 .report-options {
@@ -45,4 +46,17 @@ body {
 .report-display {
     border-top: 1px solid #ddd;
     padding-top: 20px;
+    text-align: left;
 }
+
+.report-display h2 {
+    color: #2ecc71;
+    margin-bottom: 15px;
+}
+
+.report-display p {
+    margin-bottom: 10px;
+    font-size: 1.2rem;
+    color: #555;
+}
+
