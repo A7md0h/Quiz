@@ -229,3 +229,20 @@ function showResult() {
     document.getElementById("time-spent").innerText = ` : ${minutes} دقيقة و ${seconds} ثانية`;
     document.getElementById("final-score").innerText = `${(correctAnswers / shuffledQuestions.length) * 100}%`;
 }
+
+
+async function fetchStudentsData() {
+    try {
+        const snapshot = await db.collection("students").get();
+        snapshot.forEach(doc => {
+            console.log(doc.id, "=>", doc.data());
+            // هنا يمكنك معالجة البيانات كما تحتاج، مثل تخزينها في مصفوفة أو استخدامها لعرضها
+        });
+    } catch (error) {
+        console.error("Error fetching students data: ", error);
+    }
+}
+
+// استدعاء الدالة لجلب البيانات عند بدء التطبيق
+fetchStudentsData();
+
