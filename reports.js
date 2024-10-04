@@ -1,10 +1,8 @@
 // إعداد Firestore
-import { getFirestore, collection, getDocs } from "https://www.gstatic.com/firebasejs/10.14.0/firebase-firestore.js";
-
-const db = getFirestore();
+const db = firebase.firestore();
 
 function showTotalReport() {
-    getDocs(collection(db, "studentReports")).then((querySnapshot) => {
+    db.collection("studentReports").get().then((querySnapshot) => {
         const totalStudents = querySnapshot.size;
         let passedStudents = 0;
 
@@ -29,7 +27,7 @@ function showTotalReport() {
 }
 
 function showGradeReport() {
-    getDocs(collection(db, "studentReports")).then((querySnapshot) => {
+    db.collection("studentReports").get().then((querySnapshot) => {
         let gradeReports = {};
 
         querySnapshot.forEach((doc) => {
@@ -60,7 +58,7 @@ function showGradeReport() {
 }
 
 function showDetailedReport() {
-    getDocs(collection(db, "studentReports")).then((querySnapshot) => {
+    db.collection("studentReports").get().then((querySnapshot) => {
         let detailedReportHTML = `<h2>تقارير مفصلة</h2>`;
         querySnapshot.forEach((doc) => {
             const data = doc.data();
