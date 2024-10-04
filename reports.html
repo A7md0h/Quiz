@@ -25,7 +25,22 @@
     <script src="https://www.gstatic.com/firebasejs/9.6.1/firebase-app.js"></script>
     <script src="https://www.gstatic.com/firebasejs/9.6.1/firebase-firestore.js"></script>
 
-    <!-- ملف reports.js -->
+    <!-- إعداد Firebase -->
+    <script>
+        const firebaseConfig = {
+            apiKey: "AIzaSyD8PsmPIKDIra4JyujpMtUxmjKIq5HTjwc",
+            authDomain: "quiz-75392.firebaseapp.com",
+            projectId: "quiz-75392",
+            storageBucket: "quiz-75392.appspot.com",
+            messagingSenderId: "936722185875",
+            appId: "1:936722185875:web:ba0cad58fe4efab399d766"
+        };
+        
+        // Initialize Firebase
+        firebase.initializeApp(firebaseConfig);
+    </script>
+
+    <!-- ربط ملف JavaScript للتقارير -->
     <script src="reports.js"></script>
 </body>
 </html>
