@@ -1,7 +1,7 @@
 // تأكيد تحميل الملف
 console.log("تم تحميل reports.js بنجاح");
 
-// إعداد Firestore
+// إعداد Firestore باستخدام Firebase
 const db = firebase.firestore();
 
 function showTotalReport() {
@@ -11,7 +11,7 @@ function showTotalReport() {
 
         querySnapshot.forEach((doc) => {
             const data = doc.data();
-            if (data.score >= 50) {
+            if (data.score >= 50) { // افتراض النجاح بناءً على 50%
                 passedStudents++;
             }
         });
