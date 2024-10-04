@@ -50,17 +50,16 @@
         <h2>تسجيل الدخول للمعلم</h2>
         <input type="text" id="username" placeholder="اسم المستخدم">
         <input type="password" id="password" placeholder="كلمة المرور">
-        <button onclick="checkLogin()">تسجيل الدخول</button>
+        <button type="button" onclick="checkLogin()">تسجيل الدخول</button>
         <p id="error-message">خطأ في اسم المستخدم أو كلمة المرور.</p>
     </div>
 
-    <!-- Firebase JS SDK (مطلوب لتحميل Firebase) -->
-    <script src="https://www.gstatic.com/firebasejs/9.6.1/firebase-app.js"></script>
-    <script src="https://www.gstatic.com/firebasejs/9.6.1/firebase-auth.js"></script>
+    <!-- Firebase JS SDK CDN (مطلوب لتحميل Firebase) -->
+    <script src="https://www.gstatic.com/firebasejs/9.6.11/firebase-app.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/9.6.11/firebase-auth.js"></script>
 
     <!-- تكوين Firebase -->
     <script>
-        // Firebase configuration
         const firebaseConfig = {
           apiKey: "AIzaSyD8PsmPIKDIra4JyujpMtUxmjKIq5HTjwc",
           authDomain: "quiz-75392.firebaseapp.com",
@@ -88,6 +87,7 @@
                 })
                 .catch((error) => {
                     document.getElementById("error-message").style.display = "block"; // عرض رسالة الخطأ
+                    console.error("خطأ في تسجيل الدخول:", error.message);
                 });
         }
     </script>
