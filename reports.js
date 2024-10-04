@@ -1,7 +1,21 @@
+// استيراد Firebase و Firestore
+import { initializeApp } from "https://www.gstatic.com/firebasejs/10.14.0/firebase-app.js";
 import { getFirestore, collection, getDocs } from "https://www.gstatic.com/firebasejs/10.14.0/firebase-firestore.js";
 
-// إعداد Firestore
-const db = getFirestore();
+// إعداد Firebase
+const firebaseConfig = {
+    apiKey: "AIzaSyD8PsmPIKDIra4JyujpMtUxmjKIq5HTjwc",
+    authDomain: "quiz-75392.firebaseapp.com",
+    projectId: "quiz-75392",
+    storageBucket: "quiz-75392.appspot.com",
+    messagingSenderId: "936722185875",
+    appId: "1:936722185875:web:ba0cad58fe4efab399d766"
+};
+
+const app = initializeApp(firebaseConfig);
+const db = getFirestore(app);
+
+console.log("تم تحميل reports.js بنجاح");
 
 function showTotalReport() {
     getDocs(collection(db, "studentReports")).then((querySnapshot) => {
