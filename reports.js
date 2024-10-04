@@ -1,26 +1,73 @@
+// Firebase إعداد
+const db = firebase.firestore();
+
 function showTotalReport() {
-    document.getElementById("report-display").innerHTML = `
-        <h2>التقارير الإجمالية</h2>
-        <p>إجمالي عدد الطلاب: 50</p>
-        <p>عدد الطلاب الذين اجتازوا: 30</p>
-        <p>نسبة النجاح: 60%</p>
-    `;
+    db.collection("studentReports").get().then((querySnapshot) => {
+        const totalStudents = querySnapshot.size;
+        let passedStudents = 0;
+
+        querySnapshot.forEach((doc) => {
+            const data = doc.data();
+            // اعتبر أن النجاح هو الحصول على أكثر من 50% من الدرجة
+            if (data.score >= 50) {
+                passedStudents++;
+            }
+        });
+
+        const passRate = (passedStudents / totalStudents) * 100;
+
+        document.getElementById("report-display").innerHTML = `
+            <h2>التقارير الإجمالية</h2>
+            <p>إجمالي عدد الطلاب: ${totalStudents}</p>
+            <p>عدد الطلاب الذين اجتازوا: ${passedStudents}</p>
+            <p>نسبة النجاح: ${passRate.toFixed(2)}%</p>
+        `;
+    }).catch((error) => {
+        console.error("Error fetching total report: ", error);
+    });
 }
 
 function showGradeReport() {
-    document.getElementById("report-display").innerHTML = `
-        <h2>تقارير حسب الصف</h2>
-        <p>صف 5: 20 طالب، اجتاز 15 طالب</p>
-        <p>صف 6: 15 طالب، اجتاز 10 طلاب</p>
-        <p>صف 7: 15 طالب، اجتاز 5 طلاب</p>
-    `;
+    db.collection("studentReports").get().then((querySnapshot) => {
+        let gradeReports = {};
+        
+        querySnapshot.forEach((doc) => {
+            const data = doc.data();
+            const grade = data.grade;
+            if (!gradeReports[grade]) {
+                gradeReports[grade] = { total: 0, passed: 0 };
+            }
+
+            gradeReports[grade].total++;
+
+            if (data.score >= 50) {
+                gradeReports[grade].passed++;
+            }
+        });
+
+        let gradeReportHTML = `<h2>تقارير حسب الصف</h2>`;
+        for (const grade in gradeReports) {
+            const total = gradeReports[grade].total;
+            const passed = gradeReports[grade].passed;
+            gradeReportHTML += `<p>صف ${grade}: ${total} طالب، اجتاز ${passed} طالب</p>`;
+        }
+
+        document.getElementById("report-display").innerHTML = gradeReportHTML;
+    }).catch((error) => {
+        console.error("Error fetching grade report: ", error);
+    });
 }
 
 function showDetailedReport() {
-    document.getElementById("report-display").innerHTML = `
-        <h2>تقارير مفصلة</h2>
-        <p>اسم الطالب: أحمد، الدرجة: 90</p>
-        <p>اسم الطالب: فاطمة، الدرجة: 85</p>
-        <p>اسم الطالب: يوسف، الدرجة: 70</p>
-    `;
+    db.collection("studentReports").get().then((querySnapshot) => {
+        let detailedReportHTML = `<h2>تقارير مفصلة</h2>`;
+        querySnapshot.forEach((doc) => {
+            const data = doc.data();
+            detailedReportHTML += `<p>اسم الطالب: ${data.name}، الدرجة: ${data.score}</p>`;
+        });
+
+        document.getElementById("report-display").innerHTML = detailedReportHTML;
+    }).catch((error) => {
+        console.error("Error fetching detailed report: ", error);
+    });
 }
