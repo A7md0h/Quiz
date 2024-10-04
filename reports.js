@@ -1,8 +1,11 @@
+import { getFirestore, collection, getDocs } from "https://www.gstatic.com/firebasejs/10.14.0/firebase-firestore.js";
+
 // Firebase إعداد
-const db = firebase.firestore();
+const db = getFirestore();
 
 function showTotalReport() {
-    db.collection("studentReports").get().then((querySnapshot) => {
+    const reportsCollection = collection(db, "studentReports");
+    getDocs(reportsCollection).then((querySnapshot) => {
         const totalStudents = querySnapshot.size;
         let passedStudents = 0;
 
@@ -28,7 +31,8 @@ function showTotalReport() {
 }
 
 function showGradeReport() {
-    db.collection("studentReports").get().then((querySnapshot) => {
+    const reportsCollection = collection(db, "studentReports");
+    getDocs(reportsCollection).then((querySnapshot) => {
         let gradeReports = {};
         
         querySnapshot.forEach((doc) => {
@@ -59,7 +63,8 @@ function showGradeReport() {
 }
 
 function showDetailedReport() {
-    db.collection("studentReports").get().then((querySnapshot) => {
+    const reportsCollection = collection(db, "studentReports");
+    getDocs(reportsCollection).then((querySnapshot) => {
         let detailedReportHTML = `<h2>تقارير مفصلة</h2>`;
         querySnapshot.forEach((doc) => {
             const data = doc.data();
