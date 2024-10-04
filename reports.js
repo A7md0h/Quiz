@@ -1,8 +1,23 @@
+import { initializeApp } from "https://www.gstatic.com/firebasejs/10.14.0/firebase-app.js";
 import { getFirestore, collection, getDocs } from "https://www.gstatic.com/firebasejs/10.14.0/firebase-firestore.js";
 
-// Firebase إعداد
-const db = getFirestore();
+// إعداد Firebase
+const firebaseConfig = {
+    apiKey: "YOUR_API_KEY",
+    authDomain: "YOUR_PROJECT_ID.firebaseapp.com",
+    projectId: "YOUR_PROJECT_ID",
+    storageBucket: "YOUR_PROJECT_ID.appspot.com",
+    messagingSenderId: "YOUR_MESSAGING_SENDER_ID",
+    appId: "YOUR_APP_ID"
+};
 
+// Initialize Firebase
+const app = initializeApp(firebaseConfig);
+
+// Initialize Firestore
+const db = getFirestore(app);
+
+// دالة لعرض التقرير الإجمالي
 function showTotalReport() {
     const reportsCollection = collection(db, "studentReports");
     getDocs(reportsCollection).then((querySnapshot) => {
@@ -11,7 +26,6 @@ function showTotalReport() {
 
         querySnapshot.forEach((doc) => {
             const data = doc.data();
-            // اعتبر أن النجاح هو الحصول على أكثر من 50% من الدرجة
             if (data.score >= 50) {
                 passedStudents++;
             }
@@ -30,11 +44,12 @@ function showTotalReport() {
     });
 }
 
+// دالة لعرض تقرير حسب الصف
 function showGradeReport() {
     const reportsCollection = collection(db, "studentReports");
     getDocs(reportsCollection).then((querySnapshot) => {
         let gradeReports = {};
-        
+
         querySnapshot.forEach((doc) => {
             const data = doc.data();
             const grade = data.grade;
@@ -62,6 +77,7 @@ function showGradeReport() {
     });
 }
 
+// دالة لعرض تقرير مفصل
 function showDetailedReport() {
     const reportsCollection = collection(db, "studentReports");
     getDocs(reportsCollection).then((querySnapshot) => {
