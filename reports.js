@@ -1,23 +1,10 @@
-// استيراد Firebase و Firestore
-import { initializeApp } from "https://www.gstatic.com/firebasejs/10.14.0/firebase-app.js";
 import { getFirestore, collection, getDocs } from "https://www.gstatic.com/firebasejs/10.14.0/firebase-firestore.js";
 
-// إعداد Firebase
-const firebaseConfig = {
-    apiKey: "AIzaSyD8PsmPIKDIra4JyujpMtUxmjKIq5HTjwc",
-    authDomain: "quiz-75392.firebaseapp.com",
-    projectId: "quiz-75392",
-    storageBucket: "quiz-75392.appspot.com",
-    messagingSenderId: "936722185875",
-    appId: "1:936722185875:web:ba0cad58fe4efab399d766"
-};
+// إعداد Firestore
+const db = getFirestore();
 
-const app = initializeApp(firebaseConfig);
-const db = getFirestore(app);
-
-console.log("تم تحميل reports.js بنجاح");
-
-function showTotalReport() {
+// Export functions to make them accessible in reports.html
+export function showTotalReport() {
     getDocs(collection(db, "studentReports")).then((querySnapshot) => {
         const totalStudents = querySnapshot.size;
         let passedStudents = 0;
@@ -42,7 +29,7 @@ function showTotalReport() {
     });
 }
 
-function showGradeReport() {
+export function showGradeReport() {
     getDocs(collection(db, "studentReports")).then((querySnapshot) => {
         let gradeReports = {};
 
@@ -73,7 +60,7 @@ function showGradeReport() {
     });
 }
 
-function showDetailedReport() {
+export function showDetailedReport() {
     getDocs(collection(db, "studentReports")).then((querySnapshot) => {
         let detailedReportHTML = `<h2>تقارير مفصلة</h2>`;
         querySnapshot.forEach((doc) => {
