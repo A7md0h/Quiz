@@ -127,6 +127,10 @@ let wrongAnswers = 0;
 let startTime, endTime;
 let shuffledQuestions = [];
 
+// Firebase إعداد
+const db = firebase.firestore();  // تأكد من إعداد Firebase مسبقًا في index.html
+
+// وظيفة خلط الأسئلة والإجابات
 function shuffle(array) {
     for (let i = array.length - 1; i > 0; i--) {
         const j = Math.floor(Math.random() * (i + 1));
@@ -146,8 +150,12 @@ function startQuiz() {
 
     startTime = new Date();
     shuffledQuestions = shuffle([...quizData]);
+
+    // إخفاء شاشة البداية والفوتر
     document.getElementById("start-screen").classList.add("hidden");
     document.getElementById("quiz-container").classList.remove("hidden");
+    document.querySelector(".footer").classList.add("hidden");  // إخفاء الفوتر
+
     showQuestion();
 }
 
@@ -214,6 +222,7 @@ function nextQuestion() {
     }
 }
 
+// دالة عرض النتيجة النهائية
 function showResult() {
     endTime = new Date();
     let timeSpent = Math.floor((endTime - startTime) / 1000);
@@ -228,21 +237,29 @@ function showResult() {
     document.getElementById("wrong-answers").innerText = wrongAnswers;
     document.getElementById("time-spent").innerText = ` : ${minutes} دقيقة و ${seconds} ثانية`;
     document.getElementById("final-score").innerText = `${(correctAnswers / shuffledQuestions.length) * 100}%`;
+
+    // حفظ تقرير الطالب في Firebase
+    saveStudentReport();
 }
 
+// دالة حفظ التقرير في Firestore
+function saveStudentReport() {
+    const studentName = document.getElementById("student-name").value.trim();
+    const studentGrade = document.getElementById("student-grade").value.trim();
 
-async function fetchStudentsData() {
-    try {
-        const snapshot = await db.collection("students").get();
-        snapshot.forEach(doc => {
-            console.log(doc.id, "=>", doc.data());
-            // هنا يمكنك معالجة البيانات كما تحتاج، مثل تخزينها في مصفوفة أو استخدامها لعرضها
-        });
-    } catch (error) {
-        console.error("Error fetching students data: ", error);
-    }
+    db.collection("studentReports").add({
+        name: studentName,
+        grade: studentGrade,
+        correctAnswers: correctAnswers,
+        wrongAnswers: wrongAnswers,
+        score: (correctAnswers / shuffledQuestions.length) * 100,
+        timeSpent: Math.floor((endTime - startTime) / 1000),
+        timestamp: firebase.firestore.FieldValue.serverTimestamp()
+    })
+    .then(() => {
+        console.log("تم حفظ تقرير الطالب بنجاح.");
+    })
+    .catch((error) => {
+        console.error("خطأ في حفظ التقرير:", error);
+    });
 }
-
-// استدعاء الدالة لجلب البيانات عند بدء التطبيق
-fetchStudentsData();
-
