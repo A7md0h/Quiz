@@ -15,18 +15,16 @@
 
       // Your web app's Firebase configuration
       const firebaseConfig = {
-        apiKey: "AIzaSyD8PsmPIKDIra4JyujpMtUxmjKIq5HTjwc",
-        authDomain: "quiz-75392.firebaseapp.com",
-        projectId: "quiz-75392",
-        storageBucket: "quiz-75392.appspot.com",
-        messagingSenderId: "936722185875",
-        appId: "1:936722185875:web:ba0cad58fe4efab399d766"
+        apiKey: "YOUR_API_KEY",
+        authDomain: "YOUR_PROJECT_ID.firebaseapp.com",
+        projectId: "YOUR_PROJECT_ID",
+        storageBucket: "YOUR_PROJECT_ID.appspot.com",
+        messagingSenderId: "YOUR_MESSAGING_SENDER_ID",
+        appId: "YOUR_APP_ID"
       };
 
       // Initialize Firebase
       const app = initializeApp(firebaseConfig);
-
-      // Initialize Firestore
       const db = getFirestore(app);
 
       // حفظ تقرير الطالب في Firestore
@@ -56,7 +54,7 @@
           console.log("بدء الاختبار للطالب:", studentName, "الصف:", studentGrade);
           document.getElementById("start-screen").classList.add("hidden");
           document.getElementById("quiz-container").classList.remove("hidden");
-          startTimer(); // يمكنك إضافة أي دالة لبدء المؤقت أو الاختبار
+          // استدعاء المؤقت أو بداية الأسئلة هنا
         } else {
           alert("يرجى إدخال الاسم والصف قبل البدء.");
         }
