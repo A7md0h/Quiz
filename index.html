@@ -1,7 +1,6 @@
 <!DOCTYPE html>
 <html lang="ar">
 <head>
-    <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>لعبة الأسئلة التفاعلية</title>
@@ -25,15 +24,43 @@
         // Initialize Firebase
         const app = firebase.initializeApp(firebaseConfig);
         const db = firebase.firestore();
+        
+        let studentName = '';
+        let studentGrade = '';
+
+        // بدء الاختبار
+        function startQuiz() {
+            studentName = document.getElementById("student-name").value;
+            studentGrade = document.getElementById("student-grade").value;
+
+            if (studentName && studentGrade) {
+                document.getElementById("start-screen").classList.add("hidden");
+                document.getElementById("quiz-container").classList.remove("hidden");
+                startTimer(); // يمكنك إضافة أي دالة لبدء المؤقت أو الاختبار
+            } else {
+                alert("يرجى إدخال الاسم والصف قبل البدء.");
+            }
+        }
+
+        // حفظ تقرير الطالب في Firestore
+        function saveStudentReport(score, correctAnswers, wrongAnswers, timeSpent) {
+            db.collection("studentReports").add({
+                name: studentName,
+                grade: studentGrade,
+                score: score,
+                correctAnswers: correctAnswers,
+                wrongAnswers: wrongAnswers,
+                timeSpent: timeSpent,
+                timestamp: firebase.firestore.FieldValue.serverTimestamp()
+            }).then(() => {
+                console.log("تم حفظ تقرير الطالب بنجاح.");
+            }).catch((error) => {
+                console.error("خطأ في حفظ التقرير:", error);
+            });
+        }
     </script>
 </head>
 
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>لعبة الأسئلة التفاعلية</title>
-    <link href="https://fonts.googleapis.com/css2?family=Cairo:wght@400;700&display=swap" rel="stylesheet">
-    <link rel="stylesheet" href="style.css">
-</head>
 <body>
     <!-- واجهة إدخال اسم الطالب والصف -->
     <div id="start-screen" class="start-screen">
