@@ -1,0 +1,64 @@
+<!DOCTYPE html>
+<html lang="ar">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>لعبة الأسئلة التفاعلية</title>
+    <link href="https://fonts.googleapis.com/css2?family=Cairo:wght@400;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <!-- واجهة إدخال اسم الطالب والصف -->
+    <div id="start-screen" class="start-screen">
+        <h1>مرحباً بكم في الأسئلة التفاعلية</h1>
+        <h1>الصف الخامس / أساسيات الحاسوب</h1>
+        
+        <div class="input-container">
+            <input type="text" id="student-name" placeholder="ادخل اسمك" required>
+            <input type="text" id="student-grade" placeholder="ادخل صفك" required>
+            <button onclick="startQuiz()" class="start-btn">ابدأ</button>
+        </div>
+
+        <!-- أيقونة الترس لفتح صفحة الإعدادات -->
+        <div class="settings-icon">
+            <a href="settings.html"><img src="assets/icons/gear.png" alt="الإعدادات" /></a>
+        </div>
+    </div>
+
+    <!-- واجهة الأسئلة -->
+    <div id="quiz-container" class="quiz-container hidden">
+        <h2 id="question-number"></h2>
+        <h2 id="question">السؤال هنا</h2>
+        <img id="question-image" src="" alt="صورة السؤال" class="question-image">
+        <div class="answer-buttons">
+            <button class="btn" id="btn1" onclick="selectAnswer(0)">اختيار 1</button>
+            <button class="btn" id="btn2" onclick="selectAnswer(1)">اختيار 2</button>
+            <button class="btn" id="btn3" onclick="selectAnswer(2)">اختيار 3</button>
+            <button class="btn" id="btn4" onclick="selectAnswer(3)">اختيار 4</button>
+        </div>
+        <button id="next-btn" class="next-btn hidden" onclick="nextQuestion()">السؤال التالي</button>
+    </div>
+
+    <!-- واجهة التقرير النهائي -->
+    <div id="result-screen" class="result-screen hidden">
+        <h1>تقرير الأداء</h1>
+        <p id="student-info"></p>
+        <p>عدد الأسئلة الصحيحة: <span id="correct-answers"></span></p>
+        <p>عدد الأسئلة الخاطئة: <span id="wrong-answers"></span></p>
+        <p>الوقت المستغرق: <span id="time-spent"></span></p>
+        <p>الدرجة النهائية: <span id="final-score"></span></p>
+        <h2>شكراً لمشاركتك!</h2>
+    </div>
+
+    <!-- أصوات الإجابات -->
+    <audio id="correct-sound" src="correct-sound.mp3"></audio>
+    <audio id="wrong-sound" src="wrong-sound.mp3"></audio>
+
+    <!-- تصميم الأستاذ أحمد الضامري -->
+    <footer class="footer">
+        <p class="credit">تصميم: الأستاذ أحمد الضامري</p>
+    </footer>
+
+    <script src="script.js"></script>
+</body>
+</html>

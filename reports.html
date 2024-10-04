@@ -1,0 +1,27 @@
+<!DOCTYPE html>
+<html lang="ar">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>تقارير أداء الطلاب</title>
+    <link href="https://fonts.googleapis.com/css2?family=Cairo:wght@400;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="reports.css">
+</head>
+<body>
+    <div class="report-container">
+        <h1>تقارير أداء الطلاب</h1>
+        <div class="report-options">
+            <button onclick="showTotalReport()">تقارير إجمالية</button>
+            <button onclick="showGradeReport()">تقارير حسب الصف</button>
+            <button onclick="showDetailedReport()">تقارير مفصلة</button>
+        </div>
+
+        <div id="report-display" class="report-display">
+            <!-- ستظهر التقارير هنا -->
+            <p>اختر نوع التقرير من الأزرار أعلاه.</p>
+        </div>
+    </div>
+
+    <script src="reports.js"></script>
+</body>
+</html>
