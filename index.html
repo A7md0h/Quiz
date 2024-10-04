@@ -8,57 +8,78 @@
     <link rel="stylesheet" href="style.css">
     
     <!-- استيراد Firebase SDK -->
-    <script src="https://www.gstatic.com/firebasejs/9.6.1/firebase-app.js"></script>
-    <script src="https://www.gstatic.com/firebasejs/9.6.1/firebase-firestore.js"></script>
-    <script>
-        // إعداد Firebase
-        const firebaseConfig = {
-            apiKey: "YOUR_API_KEY",
-            authDomain: "YOUR_PROJECT_ID.firebaseapp.com",
-            projectId: "YOUR_PROJECT_ID",
-            storageBucket: "YOUR_PROJECT_ID.appspot.com",
-            messagingSenderId: "YOUR_SENDER_ID",
-            appId: "YOUR_APP_ID"
-        };
+    <script type="module">
+      // Import the functions you need from the SDKs you need
+      import { initializeApp } from "https://www.gstatic.com/firebasejs/10.14.0/firebase-app.js";
+      import { getFirestore, collection, addDoc } from "https://www.gstatic.com/firebasejs/10.14.0/firebase-firestore.js";
 
-        // Initialize Firebase
-        const app = firebase.initializeApp(firebaseConfig);
-        const db = firebase.firestore();
+      // Your web app's Firebase configuration
+      const firebaseConfig = {
+        apiKey: "AIzaSyD8PsmPIKDIra4JyujpMtUxmjKIq5HTjwc",
+        authDomain: "quiz-75392.firebaseapp.com",
+        projectId: "quiz-75392",
+        storageBucket: "quiz-75392.appspot.com",
+        messagingSenderId: "936722185875",
+        appId: "1:936722185875:web:ba0cad58fe4efab399d766"
+      };
 
-        // بدء الاختبار
-        function startQuiz() {
-            const studentName = document.getElementById("student-name").value;
-            const studentGrade = document.getElementById("student-grade").value;
+      // Initialize Firebase
+      const app = initializeApp(firebaseConfig);
 
-            console.log("Student Name:", studentName);
-            console.log("Student Grade:", studentGrade);
+      // Initialize Firestore
+      const db = getFirestore(app);
 
-            if (studentName && studentGrade) {
-                console.log("Starting quiz...");
-                document.getElementById("start-screen").classList.add("hidden");
-                document.getElementById("quiz-container").classList.remove("hidden");
-                startTimer(); // يمكنك إضافة أي دالة لبدء المؤقت أو الاختبار
-            } else {
-                alert("يرجى إدخال الاسم والصف قبل البدء.");
-            }
+      // حفظ تقرير الطالب في Firestore
+      async function saveStudentReport(studentName, studentGrade, score, correctAnswers, wrongAnswers, timeSpent) {
+        try {
+          const docRef = await addDoc(collection(db, "studentReports"), {
+            name: studentName,
+            grade: studentGrade,
+            score: score,
+            correctAnswers: correctAnswers,
+            wrongAnswers: wrongAnswers,
+            timeSpent: timeSpent,
+            timestamp: new Date()  // استخدام التاريخ الحالي كختم زمني
+          });
+          console.log("تم إضافة التقرير بنجاح مع معرف الوثيقة:", docRef.id);
+        } catch (error) {
+          console.error("خطأ في حفظ التقرير:", error);
         }
+      }
 
-        // حفظ تقرير الطالب في Firestore
-        function saveStudentReport(studentName, studentGrade, score, correctAnswers, wrongAnswers, timeSpent) {
-            db.collection("studentReports").add({
-                name: studentName,
-                grade: studentGrade,
-                score: score,
-                correctAnswers: correctAnswers,
-                wrongAnswers: wrongAnswers,
-                timeSpent: timeSpent,
-                timestamp: firebase.firestore.FieldValue.serverTimestamp()
-            }).then(() => {
-                console.log("تم حفظ تقرير الطالب بنجاح.");
-            }).catch((error) => {
-                console.error("خطأ في حفظ التقرير:", error);
-            });
+      // بدء الاختبار
+      function startQuiz() {
+        const studentName = document.getElementById("student-name").value;
+        const studentGrade = document.getElementById("student-grade").value;
+
+        if (studentName && studentGrade) {
+          console.log("بدء الاختبار للطالب:", studentName, "الصف:", studentGrade);
+          document.getElementById("start-screen").classList.add("hidden");
+          document.getElementById("quiz-container").classList.remove("hidden");
+          startTimer(); // يمكنك إضافة أي دالة لبدء المؤقت أو الاختبار
+        } else {
+          alert("يرجى إدخال الاسم والصف قبل البدء.");
         }
+      }
+
+      // دالة عرض النتيجة النهائية
+      function showResult(correctAnswers, wrongAnswers, totalQuestions, timeSpent) {
+        const studentName = document.getElementById("student-name").value;
+        const studentGrade = document.getElementById("student-grade").value;
+        const score = (correctAnswers / totalQuestions) * 100;
+
+        document.getElementById("quiz-container").classList.add("hidden");
+        document.getElementById("result-screen").classList.remove("hidden");
+
+        document.getElementById("student-info").innerText = `${studentName}, الصف ${studentGrade}`;
+        document.getElementById("correct-answers").innerText = correctAnswers;
+        document.getElementById("wrong-answers").innerText = wrongAnswers;
+        document.getElementById("time-spent").innerText = `${timeSpent} ثانية`;
+        document.getElementById("final-score").innerText = `${score}%`;
+
+        // حفظ تقرير الطالب
+        saveStudentReport(studentName, studentGrade, score, correctAnswers, wrongAnswers, timeSpent);
+      }
     </script>
 </head>
 
