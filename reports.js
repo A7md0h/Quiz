@@ -1,74 +1,59 @@
-// تأكيد تحميل التقارير
-console.log("تم تحميل reports.js بنجاح");
+// إعداد Firebase
+const db = firebase.firestore();
 
-function showTotalReport() {
-    db.collection("studentReports").get().then((querySnapshot) => {
-        const totalStudents = querySnapshot.size;
-        let passedStudents = 0;
-
-        querySnapshot.forEach((doc) => {
+// وظيفة لجلب التقارير وتحديث الجدول في الوقت الفعلي
+function loadReports() {
+    db.collection("studentReports").onSnapshot((snapshot) => {
+        const tableBody = document.getElementById("report-table-body");
+        tableBody.innerHTML = ''; // مسح الجدول
+        snapshot.forEach((doc) => {
             const data = doc.data();
-            console.log("Student data:", data); // للتحقق من البيانات
-
-            if (data.score >= 50) {
-                passedStudents++;
-            }
+            const row = `
+                <tr>
+                    <td>${data.name}</td>
+                    <td>${data.grade}</td>
+                    <td>${data.score}%</td>
+                    <td>${data.correctAnswers}</td>
+                    <td>${data.wrongAnswers}</td>
+                    <td>${data.timeSpent} ثانية</td>
+                </tr>
+            `;
+            tableBody.innerHTML += row;
         });
-
-        const passRate = (passedStudents / totalStudents) * 100;
-
-        document.getElementById("report-display").innerHTML = `
-            <h2>التقارير الإجمالية</h2>
-            <p>إجمالي عدد الطلاب: ${totalStudents}</p>
-            <p>عدد الطلاب الذين اجتازوا: ${passedStudents}</p>
-            <p>نسبة النجاح: ${passRate.toFixed(2)}%</p>
-        `;
-    }).catch((error) => {
-        console.error("Error fetching total report:", error); // عرض الخطأ
     });
 }
 
-function showGradeReport() {
-    db.collection("studentReports").get().then((querySnapshot) => {
-        let gradeReports = {};
-
-        querySnapshot.forEach((doc) => {
-            const data = doc.data();
-            const grade = data.grade;
-            if (!gradeReports[grade]) {
-                gradeReports[grade] = { total: 0, passed: 0 };
+// وظيفة للفرز
+function sortTable(columnIndex) {
+    const table = document.getElementById("report-table");
+    let rows, switching, i, x, y, shouldSwitch;
+    switching = true;
+    while (switching) {
+        switching = false;
+        rows = table.rows;
+        for (i = 1; i < (rows.length - 1); i++) {
+            shouldSwitch = false;
+            x = rows[i].getElementsByTagName("TD")[columnIndex];
+            y = rows[i + 1].getElementsByTagName("TD")[columnIndex];
+            if (x.innerHTML.toLowerCase() > y.innerHTML.toLowerCase()) {
+                shouldSwitch = true;
+                break;
             }
-
-            gradeReports[grade].total++;
-
-            if (data.score >= 50) {
-                gradeReports[grade].passed++;
-            }
-        });
-
-        let gradeReportHTML = `<h2>تقارير حسب الصف</h2>`;
-        for (const grade in gradeReports) {
-            const total = gradeReports[grade].total;
-            const passed = gradeReports[grade].passed;
-            gradeReportHTML += `<p>صف ${grade}: ${total} طالب، اجتاز ${passed} طالب</p>`;
         }
-
-        document.getElementById("report-display").innerHTML = gradeReportHTML;
-    }).catch((error) => {
-        console.error("Error fetching grade report:", error);
-    });
+        if (shouldSwitch) {
+            rows[i].parentNode.insertBefore(rows[i + 1], rows[i]);
+            switching = true;
+        }
+    }
 }
 
-function showDetailedReport() {
-    db.collection("studentReports").get().then((querySnapshot) => {
-        let detailedReportHTML = `<h2>تقارير مفصلة</h2>`;
-        querySnapshot.forEach((doc) => {
-            const data = doc.data();
-            detailedReportHTML += `<p>اسم الطالب: ${data.name}، الدرجة: ${data.score}</p>`;
-        });
-
-        document.getElementById("report-display").innerHTML = detailedReportHTML;
-    }).catch((error) => {
-        console.error("Error fetching detailed report:", error);
-    });
+// إصدار تقرير PDF
+function generateReport() {
+    const table = document.getElementById("report-table").outerHTML;
+    const pdfWindow = window.open("");
+    pdfWindow.document.write(`<html><head><title>تقارير الطلاب</title></head><body>${table}</body></html>`);
+    pdfWindow.print();
 }
+
+// تحميل التقارير عند فتح الصفحة
+window.onload = loadReports;
