@@ -3,35 +3,37 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>تقارير الطلاب</title>
+    <title>تقارير أداء الطلاب</title>
     <link href="https://fonts.googleapis.com/css2?family=Cairo:wght@400;700&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="reports.css">
 </head>
 <body>
     <div class="report-container">
-        <h1>تقارير الطلاب</h1>
-        <table id="report-table">
+        <h1>تقارير أداء الطلاب</h1>
+        <div id="report-display" class="report-display">
+            <!-- سيتم عرض البيانات هنا -->
+        </div>
+        <table id="student-reports-table">
             <thead>
                 <tr>
-                    <th onclick="sortTable(0)">اسم الطالب</th>
-                    <th onclick="sortTable(1)">الصف</th>
-                    <th onclick="sortTable(2)">الدرجة</th>
-                    <th onclick="sortTable(3)">عدد الإجابات الصحيحة</th>
-                    <th onclick="sortTable(4)">عدد الإجابات الخاطئة</th>
-                    <th onclick="sortTable(5)">الوقت المستغرق</th>
+                    <th>اسم الطالب</th>
+                    <th>الصف</th>
+                    <th>الدرجة</th>
+                    <th>عدد الإجابات الصحيحة</th>
+                    <th>عدد الإجابات الخاطئة</th>
+                    <th>الوقت المستغرق</th>
                 </tr>
             </thead>
-            <tbody id="report-table-body">
-                <!-- سيتم إضافة الصفوف هنا بالوقت الفعلي -->
+            <tbody>
+                <!-- سيتم إضافة الصفوف هنا عبر JavaScript -->
             </tbody>
         </table>
-        <button onclick="generateReport()">إصدار تقرير PDF</button>
     </div>
 
     <!-- إضافة Firebase SDK -->
     <script src="https://www.gstatic.com/firebasejs/9.6.1/firebase-app.js"></script>
     <script src="https://www.gstatic.com/firebasejs/9.6.1/firebase-firestore.js"></script>
-    
+
     <!-- إعداد Firebase -->
     <script>
         const firebaseConfig = {
@@ -45,9 +47,37 @@
 
         // Initialize Firebase
         firebase.initializeApp(firebaseConfig);
-    </script>
+        const db = firebase.firestore();
 
-    <!-- ربط ملف JavaScript الخاص بالتقارير -->
-    <script src="reports.js"></script>
+        // جلب البيانات من Firestore وعرضها في الجدول
+        function fetchReports() {
+            const tableBody = document.querySelector("#student-reports-table tbody");
+
+            db.collection("studentReports").onSnapshot((querySnapshot) => {
+                // مسح الصفوف القديمة
+                tableBody.innerHTML = '';
+
+                // إضافة الصفوف الجديدة
+                querySnapshot.forEach((doc) => {
+                    const data = doc.data();
+                    const row = document.createElement("tr");
+
+                    row.innerHTML = `
+                        <td>${data.name}</td>
+                        <td>${data.grade}</td>
+                        <td>${data.score.toFixed(2)}%</td>
+                        <td>${data.correctAnswers}</td>
+                        <td>${data.wrongAnswers}</td>
+                        <td>${data.timeSpent} ثانية</td>
+                    `;
+
+                    tableBody.appendChild(row);
+                });
+            });
+        }
+
+        // استدعاء الدالة بعد تحميل الصفحة
+        window.onload = fetchReports;
+    </script>
 </body>
 </html>
