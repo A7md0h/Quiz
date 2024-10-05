@@ -6,7 +6,30 @@
     <title>لعبة الأسئلة التفاعلية</title>
     <link href="https://fonts.googleapis.com/css2?family=Cairo:wght@400;700&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="style.css">
+
+    <!-- استيراد Firebase SDK -->
+    <script src="https://www.gstatic.com/firebasejs/9.6.1/firebase-app.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/9.6.1/firebase-firestore.js"></script>
+
+    <script>
+        // إعداد Firebase
+        const firebaseConfig = {
+            apiKey: "AIzaSyD8PsmPIKDIra4JyujpMtUxmjKIq5HTjwc",
+            authDomain: "quiz-75392.firebaseapp.com",
+            projectId: "quiz-75392",
+            storageBucket: "quiz-75392.appspot.com",
+            messagingSenderId: "936722185875",
+            appId: "1:936722185875:web:ba0cad58fe4efab399d766"
+        };
+
+        // Initialize Firebase
+        firebase.initializeApp(firebaseConfig);
+        const db = firebase.firestore();
+    </script>
+
+    <script src="script.js"></script>
 </head>
+
 <body>
     <!-- واجهة إدخال اسم الطالب والصف -->
     <div id="start-screen" class="start-screen">
@@ -17,11 +40,6 @@
             <input type="text" id="student-name" placeholder="ادخل اسمك" required>
             <input type="text" id="student-grade" placeholder="ادخل صفك" required>
             <button onclick="startQuiz()" class="start-btn">ابدأ</button>
-        </div>
-
-        <!-- أيقونة الترس لفتح صفحة الإعدادات -->
-        <div class="settings-icon">
-            <a href="settings.html"><img src="assets/icons/gear.png" alt="الإعدادات" /></a>
         </div>
     </div>
 
@@ -58,7 +76,5 @@
     <footer class="footer">
         <p class="credit">تصميم: الأستاذ أحمد الضامري</p>
     </footer>
-
-    <script src="script.js"></script>
 </body>
 </html>
