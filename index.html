@@ -7,7 +7,7 @@
     <link href="https://fonts.googleapis.com/css2?family=Cairo:wght@400;700&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="style.css">
 
-    <!-- استيراد Firebase SDK -->
+    <!-- Firebase SDK -->
     <script src="https://www.gstatic.com/firebasejs/9.6.1/firebase-app.js"></script>
     <script src="https://www.gstatic.com/firebasejs/9.6.1/firebase-firestore.js"></script>
 
@@ -25,9 +25,63 @@
         // Initialize Firebase
         firebase.initializeApp(firebaseConfig);
         const db = firebase.firestore();
-    </script>
 
-    <script src="script.js"></script>
+        // حفظ تقرير الطالب في Firestore
+        async function saveStudentReport(studentName, studentGrade, score, correctAnswers, wrongAnswers, timeSpent) {
+            try {
+                const docRef = await db.collection("studentReports").add({
+                    name: studentName,
+                    grade: studentGrade,
+                    score: score,
+                    correctAnswers: correctAnswers,
+                    wrongAnswers: wrongAnswers,
+                    timeSpent: timeSpent,
+                    timestamp: firebase.firestore.FieldValue.serverTimestamp()
+                });
+                console.log("تم إضافة التقرير بنجاح مع معرف الوثيقة:", docRef.id);
+            } catch (error) {
+                console.error("خطأ في حفظ التقرير:", error);
+            }
+        }
+
+        // بدء الاختبار
+        function startQuiz() {
+            const studentName = document.getElementById("student-name").value.trim();
+            const studentGrade = document.getElementById("student-grade").value.trim();
+
+            if (studentName === "" || studentGrade === "") {
+                alert("الرجاء إدخال الاسم والصف قبل البدء.");
+                return;
+            }
+
+            startTime = new Date();
+            shuffledQuestions = shuffle([...quizData]);
+
+            document.getElementById("start-screen").classList.add("hidden");
+            document.getElementById("quiz-container").classList.remove("hidden");
+
+            showQuestion();
+        }
+
+        // دالة عرض النتيجة النهائية
+        function showResult(correctAnswers, wrongAnswers, totalQuestions, timeSpent) {
+            const studentName = document.getElementById("student-name").value.trim();
+            const studentGrade = document.getElementById("student-grade").value.trim();
+            const score = (correctAnswers / totalQuestions) * 100;
+
+            document.getElementById("quiz-container").classList.add("hidden");
+            document.getElementById("result-screen").classList.remove("hidden");
+
+            document.getElementById("student-info").innerText = `${studentName}, الصف ${studentGrade}`;
+            document.getElementById("correct-answers").innerText = correctAnswers;
+            document.getElementById("wrong-answers").innerText = wrongAnswers;
+            document.getElementById("time-spent").innerText = `${timeSpent} ثانية`;
+            document.getElementById("final-score").innerText = `${score}%`;
+
+            // حفظ تقرير الطالب
+            saveStudentReport(studentName, studentGrade, score, correctAnswers, wrongAnswers, timeSpent);
+        }
+    </script>
 </head>
 
 <body>
@@ -68,13 +122,10 @@
         <h2>شكراً لمشاركتك!</h2>
     </div>
 
-    <!-- أصوات الإجابات -->
-    <audio id="correct-sound" src="correct-sound.mp3"></audio>
-    <audio id="wrong-sound" src="wrong-sound.mp3"></audio>
-
-    <!-- تصميم الأستاذ أحمد الضامري -->
     <footer class="footer">
         <p class="credit">تصميم: الأستاذ أحمد الضامري</p>
     </footer>
+
+    <script src="script.js"></script>
 </body>
 </html>
