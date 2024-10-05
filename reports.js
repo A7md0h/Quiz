@@ -1,7 +1,6 @@
-// Firebase إعداد
-const db = firebase.firestore();
+// تأكيد تحميل التقارير
+console.log("تم تحميل reports.js بنجاح");
 
-// عرض التقرير الإجمالي
 function showTotalReport() {
     db.collection("studentReports").get().then((querySnapshot) => {
         const totalStudents = querySnapshot.size;
@@ -9,6 +8,8 @@ function showTotalReport() {
 
         querySnapshot.forEach((doc) => {
             const data = doc.data();
+            console.log("Student data:", data); // للتحقق من البيانات
+
             if (data.score >= 50) {
                 passedStudents++;
             }
@@ -23,11 +24,10 @@ function showTotalReport() {
             <p>نسبة النجاح: ${passRate.toFixed(2)}%</p>
         `;
     }).catch((error) => {
-        console.error("Error fetching total report: ", error);
+        console.error("Error fetching total report:", error); // عرض الخطأ
     });
 }
 
-// عرض التقرير حسب الصف
 function showGradeReport() {
     db.collection("studentReports").get().then((querySnapshot) => {
         let gradeReports = {};
@@ -55,11 +55,10 @@ function showGradeReport() {
 
         document.getElementById("report-display").innerHTML = gradeReportHTML;
     }).catch((error) => {
-        console.error("Error fetching grade report: ", error);
+        console.error("Error fetching grade report:", error);
     });
 }
 
-// عرض التقرير المفصل
 function showDetailedReport() {
     db.collection("studentReports").get().then((querySnapshot) => {
         let detailedReportHTML = `<h2>تقارير مفصلة</h2>`;
@@ -70,6 +69,6 @@ function showDetailedReport() {
 
         document.getElementById("report-display").innerHTML = detailedReportHTML;
     }).catch((error) => {
-        console.error("Error fetching detailed report: ", error);
+        console.error("Error fetching detailed report:", error);
     });
 }
