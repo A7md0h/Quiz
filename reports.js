@@ -1,9 +1,7 @@
-// تأكيد تحميل الملف
-console.log("تم تحميل reports.js بنجاح");
-
-// إعداد Firestore باستخدام Firebase
+// Firebase إعداد
 const db = firebase.firestore();
 
+// عرض التقرير الإجمالي
 function showTotalReport() {
     db.collection("studentReports").get().then((querySnapshot) => {
         const totalStudents = querySnapshot.size;
@@ -11,7 +9,7 @@ function showTotalReport() {
 
         querySnapshot.forEach((doc) => {
             const data = doc.data();
-            if (data.score >= 50) { // افتراض النجاح بناءً على 50%
+            if (data.score >= 50) {
                 passedStudents++;
             }
         });
@@ -29,6 +27,7 @@ function showTotalReport() {
     });
 }
 
+// عرض التقرير حسب الصف
 function showGradeReport() {
     db.collection("studentReports").get().then((querySnapshot) => {
         let gradeReports = {};
@@ -60,6 +59,7 @@ function showGradeReport() {
     });
 }
 
+// عرض التقرير المفصل
 function showDetailedReport() {
     db.collection("studentReports").get().then((querySnapshot) => {
         let detailedReportHTML = `<h2>تقارير مفصلة</h2>`;
