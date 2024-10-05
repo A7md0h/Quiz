@@ -36,7 +36,7 @@
                     correctAnswers: correctAnswers,
                     wrongAnswers: wrongAnswers,
                     timeSpent: timeSpent,
-                    timestamp: new Date()
+                    timestamp: firebase.firestore.FieldValue.serverTimestamp()
                 });
                 console.log("تم إضافة التقرير بنجاح مع معرف الوثيقة:", docRef.id);
             } catch (error) {
