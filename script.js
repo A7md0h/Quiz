@@ -242,24 +242,33 @@ function showResult() {
     saveStudentReport();
 }
 
-// دالة حفظ التقرير في Firestore
+
+// Firebase إعداد
+const db = firebase.firestore();  // تأكد من إعداد Firebase مسبقًا في index.html
+
 function saveStudentReport() {
     const studentName = document.getElementById("student-name").value.trim();
     const studentGrade = document.getElementById("student-grade").value.trim();
 
+    const score = (correctAnswers / shuffledQuestions.length) * 100;
+    const timeSpent = Math.floor((endTime - startTime) / 1000);
+    
+    // حفظ البيانات في Firestore
     db.collection("studentReports").add({
         name: studentName,
         grade: studentGrade,
         correctAnswers: correctAnswers,
         wrongAnswers: wrongAnswers,
-        score: (correctAnswers / shuffledQuestions.length) * 100,
-        timeSpent: Math.floor((endTime - startTime) / 1000),
+        score: score,
+        timeSpent: timeSpent,
         timestamp: firebase.firestore.FieldValue.serverTimestamp()
-    })
-    .then(() => {
+    }).then(() => {
         console.log("تم حفظ تقرير الطالب بنجاح.");
-    })
-    .catch((error) => {
+        // نقل المستخدم إلى صفحة التقرير بعد حفظ البيانات
+        window.location.href = `reports.html?name=${encodeURIComponent(studentName)}&grade=${encodeURIComponent(studentGrade)}&score=${score}`;
+    }).catch((error) => {
         console.error("خطأ في حفظ التقرير:", error);
     });
 }
+
+
