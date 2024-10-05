@@ -21,7 +21,6 @@ body {
 .report-container h1 {
     margin-bottom: 20px;
     color: #333;
-    font-size: 2rem;
 }
 
 .report-options {
@@ -38,7 +37,6 @@ body {
     border-radius: 8px;
     cursor: pointer;
     transition: background-color 0.3s ease;
-    font-size: 1rem;
 }
 
 .report-options button:hover {
