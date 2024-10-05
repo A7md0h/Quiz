@@ -1,177 +1,132 @@
-/* إعدادات عامة */
+/* تصميم الصفحة الأساسية */
 body {
     font-family: 'Cairo', sans-serif;
-    background-color: #f9fafc;
     margin: 0;
+    padding: 0;
+    background-color: #f4f4f4;
+}
+
+/* تصميم شاشة البداية */
+.start-screen {
     display: flex;
     flex-direction: column;
     justify-content: center;
     align-items: center;
-    min-height: 100vh;
-    padding: 0 20px;
+    height: 100vh;
+    background-color: #ffffff;
 }
 
-.hidden {
+.start-btn {
+    padding: 10px 20px;
+    background-color: #3498db;
+    color: white;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    font-size: 1.2rem;
+}
+
+.start-btn:hover {
+    background-color: #2980b9;
+}
+
+.input-container {
+    margin-bottom: 20px;
+}
+
+input[type="text"] {
+    padding: 10px;
+    border-radius: 5px;
+    border: 1px solid #ddd;
+    margin: 10px 0;
+    font-size: 1.1rem;
+}
+
+/* تصميم واجهة الأسئلة */
+.quiz-container {
+    display: none;
+    padding: 20px;
+    text-align: center;
+}
+
+.quiz-container h2 {
+    font-size: 1.5rem;
+    margin-bottom: 20px;
+}
+
+.answer-buttons {
+    display: flex;
+    flex-direction: column;
+}
+
+.answer-buttons .btn {
+    padding: 10px;
+    margin: 5px 0;
+    background-color: #3498db;
+    color: white;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    font-size: 1.2rem;
+}
+
+.answer-buttons .btn:hover {
+    background-color: #2980b9;
+}
+
+.next-btn {
+    padding: 10px 20px;
+    background-color: #2ecc71;
+    color: white;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    font-size: 1.2rem;
+    margin-top: 20px;
+}
+
+.next-btn.hidden {
     display: none;
 }
 
-/* تصميم الواجهة الأساسية */
-.start-screen, .quiz-container, .result-screen {
-    background-color: #ffffff;
-    border-radius: 12px;
-    padding: 25px;
-    box-shadow: 0 0 25px rgba(0, 0, 0, 0.1);
-    text-align: center;
-    width: 100%;
-    max-width: 700px;
-    transition: all 0.3s ease;
+/* إخفاء المصمم فقط في صفحة الأسئلة */
+.quiz-container ~ .footer {
+    display: none;
 }
 
-h1, h2 {
-    color: #333;
+/* تصميم التقرير النهائي */
+.result-screen {
+    display: none;
+    text-align: center;
+    padding: 20px;
+}
+
+.result-screen h1 {
     font-size: 2rem;
     margin-bottom: 20px;
 }
 
-/* تنسيق الإدخال والأزرار */
-input[type="text"] {
-    width: 90%;
-    padding: 15px;
-    margin: 10px;
-    border: 1px solid #ddd;
-    border-radius: 8px;
-    font-size: 1.2rem;
-}
-
-button {
-    background-color: #3498db;
-    color: white;
-    padding: 15px;
-    font-size: 1.2rem;
-    border: none;
-    border-radius: 8px;
-    cursor: pointer;
-    transition: background-color 0.3s ease, transform 0.3s;
-}
-
-button:hover {
-    background-color: #2980b9;
-    transform: scale(1.05);
-}
-
-/* تنسيق الصور */
-.question-image {
-    width: 100%;
-    max-width: 700px;
-    height: auto;
-    margin-bottom: 20px;
-    border-radius: 12px;
-    box-shadow: 0 0 15px rgba(0, 0, 0, 0.1);
-}
-
-/* تنسيق الأزرار */
-.answer-buttons {
-    display: flex;
-    flex-direction: column;
-    gap: 15px;
-}
-
-.btn {
-    background-color: #3498db;
-    color: white;
-    padding: 15px;
-    font-size: 1.2rem;
-    border: none;
-    border-radius: 8px;
-    cursor: pointer;
-    transition: background-color 0.3s ease, transform 0.3s;
-}
-
-.btn:hover {
-    background-color: #2980b9;
-    transform: scale(1.05);
-}
-
-.correct {
-    background-color: green;
-    color: white;
-}
-
-.incorrect {
-    background-color: red;
-    color: white;
-}
-
-.next-btn {
-    margin-top: 20px;
-    padding: 15px 25px;
-    background-color: #2ecc71;
-    color: white;
-    border: none;
-    border-radius: 8px;
-    font-size: 1.2rem;
-    cursor: pointer;
-}
-
-/* تقرير الأداء */
 .result-screen p {
-    font-size: 1.4rem;
-    margin: 15px 0;
-}
-
-.result-screen span {
-    font-weight: bold;
-    color: #2ecc71;
+    font-size: 1.2rem;
+    margin-bottom: 10px;
 }
 
 /* تصميم الفوتر */
 .footer {
-    text-align: center;
-    margin-top: 10px;
-    padding: 5px;
     position: fixed;
-    width: 100%;
     bottom: 0;
-    background-color: #f9fafc;
+    width: 100%;
+    text-align: center;
+    background-color: #333;
+    color: white;
+    padding: 10px;
 }
 
-.credit {
-    font-size: 0.9rem;
-    color: #555;
-    font-weight: bold;
+.footer .credit {
+    font-size: 1rem;
 }
 
-/* تصميم مخصص للجوال */
-@media (max-width: 768px) {
-    .start-screen, .quiz-container, .result-screen {
-        width: 100%;
-        padding: 20px;
-    }
-
-    h1, h2 {
-        font-size: 1.8rem;
-    }
-
-    input[type="text"] {
-        font-size: 1rem;
-    }
-
-    button {
-        font-size: 1rem;
-        padding: 12px;
-    }
-
-    .btn {
-        padding: 12px;
-        font-size: 1rem;
-    }
-
-    .next-btn {
-        font-size: 1rem;
-        padding: 12px 20px;
-    }
-
-    .credit {
-        font-size: 0.8rem;
-    }
+/* إخفاء المصمم في صفحة الأسئلة */
+.hidden-footer {
+    display: none;
 }
