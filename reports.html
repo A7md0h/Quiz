@@ -3,22 +3,29 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>تقارير أداء الطلاب</title>
+    <title>تقارير الطلاب</title>
     <link href="https://fonts.googleapis.com/css2?family=Cairo:wght@400;700&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="reports.css">
 </head>
 <body>
     <div class="report-container">
-        <h1>تقارير أداء الطلاب</h1>
-        <div class="report-options">
-            <button onclick="showTotalReport()">تقارير إجمالية</button>
-            <button onclick="showGradeReport()">تقارير حسب الصف</button>
-            <button onclick="showDetailedReport()">تقارير مفصلة</button>
-        </div>
-
-        <div id="report-display" class="report-display">
-            <p>اختر نوع التقرير من الأزرار أعلاه.</p>
-        </div>
+        <h1>تقارير الطلاب</h1>
+        <table id="report-table">
+            <thead>
+                <tr>
+                    <th onclick="sortTable(0)">اسم الطالب</th>
+                    <th onclick="sortTable(1)">الصف</th>
+                    <th onclick="sortTable(2)">الدرجة</th>
+                    <th onclick="sortTable(3)">عدد الإجابات الصحيحة</th>
+                    <th onclick="sortTable(4)">عدد الإجابات الخاطئة</th>
+                    <th onclick="sortTable(5)">الوقت المستغرق</th>
+                </tr>
+            </thead>
+            <tbody id="report-table-body">
+                <!-- سيتم إضافة الصفوف هنا بالوقت الفعلي -->
+            </tbody>
+        </table>
+        <button onclick="generateReport()">إصدار تقرير PDF</button>
     </div>
 
     <!-- إضافة Firebase SDK -->
@@ -28,17 +35,16 @@
     <!-- إعداد Firebase -->
     <script>
         const firebaseConfig = {
-            apiKey: "AIzaSyD8PsmPIKDIra4JyujpMtUxmjKIq5HTjwc",
-            authDomain: "quiz-75392.firebaseapp.com",
-            projectId: "quiz-75392",
-            storageBucket: "quiz-75392.appspot.com",
-            messagingSenderId: "936722185875",
-            appId: "1:936722185875:web:ba0cad58fe4efab399d766"
+            apiKey: "YOUR_API_KEY",
+            authDomain: "YOUR_PROJECT_ID.firebaseapp.com",
+            projectId: "YOUR_PROJECT_ID",
+            storageBucket: "YOUR_PROJECT_ID.appspot.com",
+            messagingSenderId: "YOUR_MESSAGING_SENDER_ID",
+            appId: "YOUR_APP_ID"
         };
 
         // Initialize Firebase
         firebase.initializeApp(firebaseConfig);
-        const db = firebase.firestore();
     </script>
 
     <!-- ربط ملف JavaScript الخاص بالتقارير -->
