@@ -18,7 +18,7 @@ body {
     max-width: 600px;
 }
 
-.start-screen h1, .result-screen h1 {
+h1 {
     margin-bottom: 20px;
 }
 
@@ -29,7 +29,7 @@ body {
     margin-bottom: 20px;
 }
 
-.start-btn {
+.start-btn, .next-btn {
     padding: 10px;
     background-color: #3498db;
     color: #fff;
@@ -38,7 +38,7 @@ body {
     cursor: pointer;
 }
 
-.start-btn:hover {
+.start-btn:hover, .next-btn:hover {
     background-color: #2980b9;
 }
 
@@ -66,19 +66,6 @@ body {
     background-color: #2980b9;
 }
 
-.next-btn {
-    padding: 10px;
-    background-color: #2ecc71;
-    color: #fff;
-    border: none;
-    border-radius: 5px;
-    cursor: pointer;
-}
-
-.next-btn:hover {
-    background-color: #27ae60;
-}
-
 footer {
     margin-top: 30px;
 }
@@ -87,7 +74,6 @@ footer {
     color: #aaa;
 }
 
-/* إخفاء التصميم في صفحة الأسئلة */
 .quiz-container ~ footer .credit {
     display: none;
 }
