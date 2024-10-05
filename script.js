@@ -120,6 +120,18 @@ const quizData = [
         image: "assets/images/encrypt_data.jpg"
     }
 
+        correctAnswers: correctAnswers,
+        wrongAnswers: wrongAnswers,
+        score: score,
+        timeSpent: timeSpent,
+        timestamp: firebase.firestore.FieldValue.serverTimestamp()
+    }).then(() => {
+        console.log("تم حفظ تقرير الطالب بنجاح.");
+    }).catch((error) => {
+        console.error("خطأ في حفظ التقرير:", error);
+    });
+}
+
 
 ];
 
@@ -257,3 +269,5 @@ function saveStudentReport() {
         console.error("خطأ في حفظ التقرير:", error);
     });
 }
+
+
